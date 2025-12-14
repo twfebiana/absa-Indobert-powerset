@@ -1,0 +1,20 @@
+# Python virtual environment
+venv/
+
+# VSCode
+.vscode/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS files
+desktop.ini
+
+# Model files (model di HF)
+model/
+*.safetensors
+*.bin
+
+# Misc
+=*

@@ -1,0 +1,9 @@
+streamlit>=1.20
+transformers>=4.30
+datasets
+torch         
+pandas
+scikit-learn
+sastrawi
+seaborn
+matplotlib

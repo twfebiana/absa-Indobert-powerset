@@ -1,9 +1,17 @@
 # app.py
 import streamlit as st
 import pandas as pd
-from utils.inference import predict_single, predict_batch_dataframe
+# from utils.inference import predict_single, predict_batch_dataframe
+from utils import inference
 from utils.visualization import plot_sentiment_counts, plot_aspect_freq
 import io
+
+@st.cache_resource
+def init_model():
+    inference.load_model()
+    return True
+
+init_model()
 
 st.set_page_config(page_title="Aplikasi Sentimen & Aspek", layout="wide")
 
@@ -28,12 +36,13 @@ if page == "Prediksi Ulasan Tunggal":
             st.warning("Tolong masukkan teks ulasan.")
         else:
             with st.spinner("Melakukan prediksi..."):
-                res = predict_single(text)
+                # res = predict_single(text)
+                res = inference.predict_single(text)
             st.success("Selesai")
             st.write("**Teks:**", res["clean_text"])
             st.write("**Kelas Prediksi:**", res["class"])
             st.write("**Kombinasi Biner:**", res["binary"])
-            st.write("**Aspek (Kualitas Pelayanan Medis dan Staf (kpms), Fasilitas dan Infrastruktur (fi), Waktu Tunggu (wt), Biaya Layanan(bl)):**")
+            st.write("**Aspek (Kualitas Pelayanan Medis dan Staf (kpms), Fasilitas dan Infrastruktur (fi), Waktu Tunggu (wt), Biaya Layanan (bl)):**")
             st.json(res["aspects"])
             # st.write("**Probabilitas:**")
             # st.write(res["probs"])
@@ -59,7 +68,8 @@ if page == "Prediksi CSV (Batch)":
 
             if st.button("Proses CSV"):
                 with st.spinner("Melakukan prediksi data..."):
-                    pred_df = predict_batch_dataframe(df_uploaded, text_col="ulasan")
+                    # pred_df = predict_batch_dataframe(df_uploaded, text_col="ulasan")
+                    pred_df = inference.predict_batch_dataframe(df_uploaded, text_col="ulasan")
                     for a in ["kpms","fi","wt","bl"]:
                         if f"aspect_{a}" not in pred_df.columns:
                             pred_df[f"aspect_{a}"] = 0

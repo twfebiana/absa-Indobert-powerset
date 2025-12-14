@@ -47,7 +47,7 @@ if page == "Prediksi Ulasan Tunggal":
             # st.write("**Probabilitas:**")
             # st.write(res["probs"])
 
-if page == "Prediksi CSV (Batch)":
+if page == "Prediksi CSV":
     st.header("Prediksi CSV")
     uploaded = st.file_uploader("Masukkan file CSV (Pastikan CSV mengandung kolom bernama 'ulasan')", type=["csv"])
     if uploaded is not None:
